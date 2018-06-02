@@ -1,0 +1,26 @@
+﻿<h1>@ViewBag.Title</h1>
+
+@if (CheeseData.GetAll() == null)
+{
+    <p>No cheeses yet!</p>
+}
+
+<table class="table">
+
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <ht>&nbsp;</ht>
+    </tr>
+
+    @foreach (var cheese in ViewBag.cheeses)
+    {
+        <tr>
+            <td>@cheese.Name</td>
+            <td>@cheese.Description</td>
+            <td><a asp-controller="Cheese" asp-action="Edit" asp-route-cheeseId="@cheese.CheeseId">edit</a></td>
+        </tr>
+    }
+</table>
+
+<p><a asp-controller="Cheese" asp-action="Add">Add Cheese</a></p>
