@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CheeseMVC.Models;
+using CheeseMVC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -15,38 +16,50 @@ namespace CheeseMVC.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            ViewBag.cheeses = CheeseData.GetAll();
-            return View();
+            List<Cheese> cheeses = CheeseData.GetAll();
+            return View(cheeses);
         }
 
 
         public IActionResult Add()
         {
-            return View();
+            AddCheeseViewModel addCheeseViewModel = new AddCheeseViewModel();
+            return View(addCheeseViewModel);
         }
 
         [HttpPost]
-        [Route("/Cheese/Add")]
-        public IActionResult Add(Cheese newCheese)
+        public IActionResult Add(AddCheeseViewModel addCheeseViewModel)
         {
-            CheeseData.Add(newCheese);
+            if(ModelState.IsValid) 
+            {
+                Cheese newCheese = new Cheese
+                {
+                    Name = addCheeseViewModel.Name,
+                    Description = addCheeseViewModel.Description,
+                    Type = addCheeseViewModel.Type
+                                                    
+                };
 
-            return Redirect("/Cheese");
+                CheeseData.Add(newCheese);
+
+                return Redirect("/Cheese");
+            }
+            return View(addCheeseViewModel);
+
         }
 
         public IActionResult Remove()
         {
-            ViewBag.title = "Remove Cheeses";
-            ViewBag.cheeses = CheeseData.GetAll();
+            List<Cheese> model = CheeseData.GetAll();
 
-            return View();
+            return View(model);
         }
 
         [HttpPost]
         [Route("/Cheese/Remove")]
         public IActionResult Remove(int[] cheeseIds)
         {
-            ViewBag.cheeses = CheeseData.GetAll();
+            List<Cheese> model = CheeseData.GetAll();
 
             foreach (int cheeseId in cheeseIds)
             {
@@ -58,8 +71,8 @@ namespace CheeseMVC.Controllers
 
         public IActionResult Edit(int cheeseId)
         {
-            ViewBag.CheeseToEdit = CheeseData.GetById(cheeseId);
-            return View();
+            Cheese cheeseToEdit = CheeseData.GetById(cheeseId);
+            return View(cheeseToEdit);
         }
 
         [HttpPost]
