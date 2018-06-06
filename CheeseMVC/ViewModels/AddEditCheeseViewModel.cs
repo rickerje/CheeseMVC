@@ -1,10 +1,13 @@
 ﻿using System;
+
 namespace CheeseMVC.ViewModels
 {
-    public class AddEditCheeseViewModel
+    public class AddEditCheeseViewModel : AddCheeseViewModel
     {
-        public AddEditCheeseViewModel()
+        public int CheeseId
         {
+            get; set;
         }
+
     }
 }

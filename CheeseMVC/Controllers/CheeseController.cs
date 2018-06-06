@@ -50,40 +50,51 @@ namespace CheeseMVC.Controllers
 
         public IActionResult Remove()
         {
-            List<Cheese> model = CheeseData.GetAll();
+            DeleteCheesesViewModel model = new DeleteCheesesViewModel();
 
             return View(model);
         }
 
         [HttpPost]
         [Route("/Cheese/Remove")]
-        public IActionResult Remove(int[] cheeseIds)
+        public IActionResult Remove(DeleteCheesesViewModel model)
         {
-            List<Cheese> model = CheeseData.GetAll();
+            if(!ModelState.IsValid)
+                return View(model);
 
-            foreach (int cheeseId in cheeseIds)
-            {
-                CheeseData.Remove(cheeseId);
-            }
+            model.Delete();
 
-            return Redirect("/");
+            return Redirect("Index");
         }
 
-        public IActionResult Edit(int cheeseId)
+/*        public IActionResult Edit(int cheeseId)
         {
-            Cheese cheeseToEdit = CheeseData.GetById(cheeseId);
-            return View(cheeseToEdit);
+            
+            AddEditCheeseViewModel addEditCheeseViewModel = new AddEditCheeseViewModel();
+
+            addEditCheeseViewModel.CheeseId = cheeseId;
+            addEditCheeseViewModel.Name = CheeseData.GetById(addEditCheeseViewModel.CheeseId).Name;
+            addEditCheeseViewModel.Description = CheeseData.GetById(addEditCheeseViewModel.CheeseId).Description;
+            addEditCheeseViewModel.Type = CheeseData.GetById(addEditCheeseViewModel.CheeseId).Type;
+
+            return View(addEditCheeseViewModel);
         }
 
         [HttpPost]
         [Route("/Cheese/Edit")]
-        public IActionResult Edit(int cheeseId, string name, string description)
+        public IActionResult Edit(AddEditCheeseViewModel addEditCheeseViewModel)
         {
-            CheeseData.GetById(cheeseId).Name = name;
-            CheeseData.GetById(cheeseId).Description = description;
+            //if(ModelState.IsValid)
+            //{
+                CheeseData.GetById(addEditCheeseViewModel.CheeseId).Name = addEditCheeseViewModel.Name;
+                CheeseData.GetById(addEditCheeseViewModel.CheeseId).Description = addEditCheeseViewModel.Description;
+                CheeseData.GetById(addEditCheeseViewModel.CheeseId).Type = addEditCheeseViewModel.Type;
 
-            return Redirect("/");
+                return Redirect("/");
+            //}
+            //return View(addEditCheeseViewModel);
         }
+        */
     }                                   
 
 }

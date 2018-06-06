@@ -1,4 +1,4 @@
-﻿@model CheeseMVC.Models.Cheese
+﻿@model CheeseMVC.ViewModels.DeleteCheesesViewModel
 @{
     ViewData["Title"] = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,9 +7,9 @@
 
 <form method="post">
 
-    @foreach (var cheese in ViewBag.cheeses)
+    @foreach (Cheese cheese in Model.Cheeses)
     {
-        <input type="checkbox" name="cheeseIds" id="@cheese.CheeseId" value="@cheese.CheeseId" />
+        <input type="checkbox" name="SelectedCheeses" id="@cheese.CheeseId" value="@cheese.CheeseId" />
         <label for="@cheese.CheeseId">@cheese.Name</label>
         <br />
     }
